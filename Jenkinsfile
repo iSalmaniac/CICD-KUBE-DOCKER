@@ -100,7 +100,7 @@ pipeline {
         stage('Kubernetes Deploy') {
           steps{   
             script {
-                withKubeconfig(credentialsId: 'K8S', serverUrl: '') {
+                Kubeconfig(credentialsId: 'K8S', serverUrl: '') {
                 sh "helm upgrade --install --force vproifle-stack helm/vprofilecharts --set appimage=${registry}:${BUILD_NUMBER} --namespace prod"
                 }
             }
