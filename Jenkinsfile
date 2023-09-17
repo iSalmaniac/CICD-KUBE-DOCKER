@@ -98,13 +98,13 @@ pipeline {
             }
         }
         stage('Kubernetes Deploy') {
-	  agent { label 'EKS' }
-            steps {
-                    sh "helm upgrade --install --force vproifle-stack helm/vprofilecharts --set appimage=${registry}:${BUILD_NUMBER} --namespace prod"
+          steps{   
+            script {
+                withKubeConfig([credentialsId: 'K8S', serverUrl: '']) {
+                sh "helm upgrade --install --force vproifle-stack helm/vprofilecharts --set appimage=${registry}:${BUILD_NUMBER} --namespace prod"
+                }
             }
+	      }
         }
-
     }
-
-
-}
+}    
