@@ -49,7 +49,7 @@ pipeline {
         }
 
 
-        stage('Building image') {
+        stage('Build image') {
             steps{
               script {
                 dockerImage = docker.build registry + ":$BUILD_NUMBER"
@@ -57,7 +57,7 @@ pipeline {
             }
         }
         
-        stage('Upload Image') {
+        stage('Upload Image To ECR') {
           steps{
             script {
               docker.withRegistry( '', registryCredential ) {
@@ -97,7 +97,7 @@ pipeline {
                 }
             }
         }
-        stage('Kubernetes Deploy') {
+        stage('Helm Deployment On Kubernetes') {
           steps{   
             script {
                 kubeconfig(credentialsId: 'K8S', serverUrl: '') {
